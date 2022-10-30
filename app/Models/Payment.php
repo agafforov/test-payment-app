@@ -10,8 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *
  * @property integer $id
  * @property integer $user_id
- * @property string $merchant_name
- * @property string $merchant_id
+ * @property string $gateway
  * @property integer $status
  * @property integer $amount
  * @property integer $amount_paid
@@ -28,18 +27,18 @@ class Payment extends Model
     const STATUS_EXPIRED = 90;
     const STATUS_PAID = 100;
 
-    const MERCHANT_FIRST = 'first';
-    const MERCHANT_SECOND = 'second';
+    const GATEWAY_FIRST = 'first';
+    const GATEWAY_SECOND = 'second';
 
     const STATUS_MAP = [
-        self::MERCHANT_FIRST => [
+        self::GATEWAY_FIRST => [
             'new' => self::STATUS_CREATED,
             'rejected' => self::STATUS_REJECTED,
             'pending' => self::STATUS_IN_PROGRESS,
             'expired' => self::STATUS_EXPIRED,
             'completed' => self::STATUS_PAID,
         ],
-        self::MERCHANT_SECOND => [
+        self::GATEWAY_SECOND => [
             'created' => self::STATUS_CREATED,
             'rejected' => self::STATUS_REJECTED,
             'inprogress' => self::STATUS_IN_PROGRESS,

@@ -9,7 +9,7 @@ use Illuminate\Http\RedirectResponse;
 
 use App\Models\Payment;
 
-class SecondSignCheck
+class SecondGetawaySignCheck
 {
     /**
      * Handle an incoming request.
@@ -20,8 +20,8 @@ class SecondSignCheck
      */
     public function handle(Request $request, Closure $next)
     {
-        $merchantName = $request->route()->parameter('merchantName');
-        if (empty($merchantName) || $merchantName !== Payment::MERCHANT_SECOND) {
+        $getaway = $request->route()->parameter('getaway');
+        if ($getaway !== Payment::GATEWAY_SECOND) {
             return $next($request);
         }
 

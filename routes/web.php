@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\WebhookController;
-use App\Http\Middleware\FirstSignCheck;
-use App\Http\Middleware\SecondSignCheck;
+use App\Http\Middleware\FirstGetawaySignCheck;
+use App\Http\Middleware\SecondGetawaySignCheck;
 use App\Http\Middleware\SortRequestParams;
 use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +22,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('/webhook/{merchantName}', [WebhookController::class, 'processPayment'])
-    ->middleware([FirstSignCheck::class, SecondSignCheck::class])
+Route::post('/webhook/{getaway}', [WebhookController::class, 'processPayment'])
+    ->middleware([FirstGetawaySignCheck::class, SecondGetawaySignCheck::class])
     ->withoutMiddleware([VerifyCsrfToken::class]);

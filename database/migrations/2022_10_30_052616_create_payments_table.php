@@ -14,9 +14,8 @@ return new class extends Migration {
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id');
-            $table->enum('merchant_name', ['first', 'second']);
-            $table->integer('merchant_id')->nullable();
+            $table->foreignId('user_id')->references('id')->on('users');
+            $table->enum('gateway', ['first', 'second']);
             $table->integer('status')->default(0);
             $table->integer('amount')->default(0);
             $table->integer('amount_paid')->default(0);

@@ -22,31 +22,31 @@ class PaymentsSeeder extends Seeder
         $payments = [
             [
                 'user_id' => $firstUser->id,
-                'merchant_name' => Payment::MERCHANT_FIRST,
+                'gateway' => Payment::GATEWAY_FIRST,
                 'amount' => 500,
                 'amount_paid' => 0,
             ],
             [
                 'user_id' => $firstUser->id,
-                'merchant_name' => Payment::MERCHANT_SECOND,
+                'gateway' => Payment::GATEWAY_SECOND,
                 'amount' => 500,
                 'amount_paid' => 0,
             ],
             [
                 'user_id' => $firstUser->id,
-                'merchant_name' => Payment::MERCHANT_FIRST,
+                'gateway' => Payment::GATEWAY_FIRST,
                 'amount' => 600,
                 'amount_paid' => 0,
             ],
             [
                 'user_id' => $firstUser->id,
-                'merchant_name' => Payment::MERCHANT_SECOND,
+                'gateway' => Payment::GATEWAY_SECOND,
                 'amount' => 10000,
                 'amount_paid' => 0,
             ],
             [
                 'user_id' => $firstUser->id,
-                'merchant_name' => Payment::MERCHANT_FIRST,
+                'gateway' => Payment::GATEWAY_FIRST,
                 'amount' => 1500,
                 'amount_paid' => 0,
             ]
