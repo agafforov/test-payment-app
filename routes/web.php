@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\WebhookController;
+use App\Http\Middleware\SortRequestParams;
+use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +19,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::post('/webhook/{merchantName}', [WebhookController::class, 'processPayment'])
+    //->middleware([SortRequestParams::class])
+    ->withoutMiddleware([VerifyCsrfToken::class])
+
+;
