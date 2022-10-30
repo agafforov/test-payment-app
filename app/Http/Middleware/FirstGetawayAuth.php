@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Http\RedirectResponse;
 
-use App\Models\Payment;
-
-class FirstGetawaySignCheck
+/**
+ * Class FirstGetawayAuth
+ */
+class FirstGetawayAuth
 {
     /**
      * Handle an incoming request.
@@ -20,11 +21,6 @@ class FirstGetawaySignCheck
      */
     public function handle(Request $request, Closure $next)
     {
-        $getaway = $request->route()->parameter('getaway');
-        if ($getaway !== Payment::GATEWAY_FIRST) {
-            return $next($request);
-        }
-
         $sign = $request->get('sign');
         $params = $request->except(['sign']);
         $merchantKey = config('first.merchant_key');

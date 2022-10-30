@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Http\RedirectResponse;
 
-use App\Models\Payment;
-
-class SecondGetawaySignCheck
+/**
+ * Class SecondGetawayAuth
+ */
+class SecondGetawayAuth
 {
     /**
      * Handle an incoming request.
@@ -20,11 +21,6 @@ class SecondGetawaySignCheck
      */
     public function handle(Request $request, Closure $next)
     {
-        $getaway = $request->route()->parameter('getaway');
-        if ($getaway !== Payment::GATEWAY_SECOND) {
-            return $next($request);
-        }
-
         $sign = $request->header('Authorization');
         $params = $request->all();
         $appKey = config('second.app_key');

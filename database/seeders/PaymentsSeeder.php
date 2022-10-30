@@ -21,17 +21,23 @@ class PaymentsSeeder extends Seeder
 
         $payments = [
             [
-                'user_id' => $firstUser->id,
+                'id' => 13,
+                'user_id' => 6,
                 'gateway' => Payment::GATEWAY_FIRST,
                 'amount' => 500,
                 'amount_paid' => 0,
             ],
             [
-                'user_id' => $firstUser->id,
+                'id' => 73,
+                'user_id' => 816,
                 'gateway' => Payment::GATEWAY_SECOND,
-                'amount' => 500,
+                'amount' => 700,
                 'amount_paid' => 0,
             ],
+        ];
+
+        Payment::insert($payments);
+        Payment::insert([
             [
                 'user_id' => $firstUser->id,
                 'gateway' => Payment::GATEWAY_FIRST,
@@ -49,10 +55,40 @@ class PaymentsSeeder extends Seeder
                 'gateway' => Payment::GATEWAY_FIRST,
                 'amount' => 1500,
                 'amount_paid' => 0,
-            ]
-        ];
+            ],
+            [
+                'user_id' => $firstUser->id,
+                'gateway' => Payment::GATEWAY_FIRST,
+                'amount' => 1500,
+                'amount_paid' => 0,
+            ],
+            [
+                'user_id' => $firstUser->id,
+                'gateway' => Payment::GATEWAY_FIRST,
+                'amount' => 1500,
+                'amount_paid' => 0,
+            ],
+            [
+                'user_id' => $firstUser->id,
+                'gateway' => Payment::GATEWAY_SECOND,
+                'amount' => 1500,
+                'amount_paid' => 0,
+            ],
+            [
+                'user_id' => $firstUser->id,
+                'gateway' => Payment::GATEWAY_FIRST,
+                'amount' => 1500,
+                'amount_paid' => 0,
+            ],
+            [
+                'user_id' => $firstUser->id,
+                'gateway' => Payment::GATEWAY_SECOND,
+                'amount' => 1500,
+                'amount_paid' => 0,
+            ],
+        ]);
 
-        Payment::insert($payments);
+
         $this->command->line("Ok.");
     }
 }
