@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Payment;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * Class WebhookController
@@ -11,49 +13,45 @@ class WebhookController extends Controller
 {
     public function processPayment($merchantName)
     {
-        $params = $this->sortParams(request()->all());
-        $params = $this->clearParams($merchantName, $params);
-        $joined = $this->concatParams($merchantName, $params);
+        $payment = Payment::find($this->getPaymentId($merchantName));
+        if (empty($payment)) {
+            abort(404, 'Payment was not found');
+        }
 
-        dd($params, $joined);
-    }
-
-    /**
-     * @param $params
-     * @return array
-     */
-    protected function sortParams($params): array
-    {
-        ksort($params);
-
-        return $params;
+        $params = request()->all();
+        $payment->status = Payment::STATUS_MAP[$merchantName][$params['status'] ?? ''] ?? Payment::STATUS_REJECTED;
+        $payment->merchant_id = $this->getMerchantId($merchantName);
+        $payment->amount_paid = $params['amount_paid'] ?? 0;
+        $payment->save();
     }
 
     /**
      * @param $merchantName
-     * @param $params
-     * @return mixed
+     * @return int
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    protected function clearParams($merchantName, $params): mixed
+    protected function getPaymentId($merchantName): int
     {
-        if ($merchantName == Payment::MERCHANT_FIRST) {
-            unset($params['sign']);
-        }
-
-        return $params;
+        return match ($merchantName) {
+            Payment::MERCHANT_FIRST => request()->get('payment_id'),
+            Payment::MERCHANT_SECOND => request()->get('invoice'),
+            default => 0,
+        };
     }
 
     /**
      * @param $merchantName
-     * @param $params
-     * @return string
+     * @return int
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    protected function concatParams($merchantName, $params): string
+    protected function getMerchantId($merchantName): int
     {
-        if ($merchantName == Payment::MERCHANT_FIRST) {
-            return join(':', $params);
-        }
-
-        return join('.', $params);
+        return match ($merchantName) {
+            Payment::MERCHANT_FIRST => request()->get('merchant_id'),
+            Payment::MERCHANT_SECOND => request()->get('project'),
+            default => 0,
+        };
     }
 }
