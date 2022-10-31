@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Payment;
-use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Psr\Container\ContainerExceptionInterface;
 
 /**
  * Class WebhookController
@@ -45,6 +45,11 @@ class WebhookController extends Controller
         if (empty($payment)) {
             abort(404, 'Payment was not found');
         }
+
+        if ($payment->isHandled()) {
+            abort(400, 'The payment has been already handled.');
+        }
+
         $payment->status = Payment::STATUS_MAP[$getaway][$params['status'] ?? ''] ?? Payment::STATUS_IN_PROGRESS;
         $payment->amount_paid = $params['amount_paid'] ?? 0;
         if (!$payment->save()) {

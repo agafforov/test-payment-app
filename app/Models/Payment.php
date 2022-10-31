@@ -46,4 +46,12 @@ class Payment extends Model
             'paid' => self::STATUS_PAID,
         ],
     ];
+
+    /**
+     * @return bool
+     */
+    public function isHandled(): bool
+    {
+        return in_array($this->status, [self::STATUS_REJECTED, self::STATUS_EXPIRED, self::STATUS_PAID]);
+    }
 }
