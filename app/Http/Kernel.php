@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\GatewayAuth;
 use App\Http\Middleware\GatewayPaymentLimit;
 use App\Http\Middleware\SigratureCheck;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -58,6 +59,7 @@ class Kernel extends HttpKernel
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,
+        'auth.gateway' => GatewayAuth::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
@@ -65,6 +67,6 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'paymentlimit' => GatewayPaymentLimit::class,
+        'payment.limit' => GatewayPaymentLimit::class,
     ];
 }

@@ -16,11 +16,11 @@ class GatewayPaymentLimit
      * @param Request $request
      * @param \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @param string $getaway
-     * @param int $limit
      * @return Response|RedirectResponse
      */
-    public function handle(Request $request, Closure $next, string $getaway, int $limit = 0)
+    public function handle(Request $request, Closure $next, string $getaway)
     {
+        $limit = config($getaway . ".payment_limit", 0);
         if (empty($limit)) {
             return $next($request);
         }
