@@ -34,25 +34,25 @@ class GatewayAuth
         $signatureName = $configs['signature_name'] ?? 'sign';
         $signatureSource = $configs['signature_source'] ?? 'body';
 
-        $sign = $request->get($signatureName);
+        $signature = $request->get($signatureName);
         if ($signatureSource == 'header') {
-            $sign = $request->header($signatureName);
+            $signature = $request->header($signatureName);
         }
         $params = $request->except($except);
         ksort($params);
         $stringToHash = join($separator, $params) . $merchantKey;
-        $generatedSign = "";
+        $generatedSignature = "";
 
         switch ($hashAlgo) {
             case 'md5':
-                $generatedSign = md5($stringToHash);
+                $generatedSignature = md5($stringToHash);
                 break;
             case 'sha256':
-                $generatedSign = hash('sha256', $stringToHash);
+                $generatedSignature = hash('sha256', $stringToHash);
                 break;
         }
 
-        if ($sign === $generatedSign) {
+        if ($signature === $generatedSignature) {
             return $next($request);
         }
 
